@@ -1,0 +1,11 @@
+[Unit]
+  Description=zRAM setup service
+
+[Service]
+  Type=oneshot
+  ExecStart=/bin/zsetup-start
+  ExecStop=/bin/zsetup-stop
+  RemainAfterExit=yes
+
+[Install]
+  WantedBy=multi-user.target
