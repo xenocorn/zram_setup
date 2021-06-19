@@ -1,6 +1,6 @@
 #!/bin/bash
 
-config_file="conf"
+config_file="/etc/zsetup.conf"
 
 if test -f "$config_file"; then
   total_size=$(cat $config_file)
