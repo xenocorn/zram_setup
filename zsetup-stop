@@ -1,0 +1,14 @@
+#!/bin/bash
+
+cpus=$(nproc --all)
+
+for i in $(seq 0 $(($cpus-1)))
+do
+  swapoff /dev/zram$i
+  echo 1 > /sys/block/zram$i/reset
+done
+
+sleep .5
+
+modprobe -r zram
+

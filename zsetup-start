@@ -1,0 +1,25 @@
+#!/bin/bash
+
+config_file="conf"
+
+if test -f "$config_file"; then
+  total_size=$(cat $config_file)
+else
+  memory=$(($(getconf _PHYS_PAGES) * $(getconf PAGE_SIZE)))
+  total_size=$((memory / 3))
+fi
+
+cpus=$(nproc --all)
+
+block_size=$((total_size / cpus))
+
+#echo $block_size
+
+modprobe zram num_devices=$cpus
+
+for i in $(seq 0 $(($cpus-1)))
+do
+  echo $block_size > /sys/block/zram$i/disksize
+  mkswap /dev/zram$i
+  swapon /dev/zram$i -p 10
+done
